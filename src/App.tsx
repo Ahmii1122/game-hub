@@ -20,7 +20,7 @@ templateColumns={
 >
   <GridItem area='nav'><NavBar/></GridItem>
   <Show above="lg">
-  <GridItem area='aside' paddingX={5}><GenreList onselectedgenre={(genre)=>setselectedgenre(genre)}/></GridItem>
+  <GridItem area='aside' paddingX={5}><GenreList selectedgenre={selectedgenre} onselectedgenre={(genre)=>setselectedgenre(genre)}/></GridItem>
   </Show>
   <GridItem area='main'><GameGrid selectedgenre={selectedgenre}/></GridItem>
 

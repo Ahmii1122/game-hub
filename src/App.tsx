@@ -6,10 +6,12 @@ import { useState } from "react";
 import { Genre } from "./hooks/useGenre";
 import PlatformSelector from "./components/PlatformSelector";
 import { platform } from "./hooks/useGames";
-
+export interface gameQuery{
+  genre: Genre | null;
+  platform : platform |null
+}
 function App() {
-  const[selectedgenre,setselectedgenre]=useState<Genre | null>(null)
-  const[selectedplatform,setselectedplatform]=useState<platform |null>(null)
+  const[gamequery,setgamequery]=useState<gameQuery>({} as gameQuery);
 return <Grid templateAreas={{
   base : `"nav" "main"`,
   lg: `"nav nav" "aside main"`
@@ -23,11 +25,11 @@ templateColumns={
 >
   <GridItem area='nav'><NavBar/></GridItem>
   <Show above="lg">
-  <GridItem area='aside' paddingX={5}><GenreList selectedgenre={selectedgenre} onselectedgenre={(genre)=>setselectedgenre(genre)}/></GridItem>
+<GridItem area='aside' paddingX={5}><GenreList selectedgenre={gamequery.genre} onselectedgenre={(genre)=>setgamequery({...gamequery,genre})}/></GridItem>
   </Show>
   <GridItem area='main'>
-    <PlatformSelector selectedplatform={selectedplatform} onselectPlatform={(platform)=>setselectedplatform(platform)} />
-     <GameGrid selectedplatform={selectedplatform} selectedgenre={selectedgenre}/></GridItem>
+    <PlatformSelector selectedplatform={gamequery.platform} onselectPlatform={(platform)=>setgamequery({...gamequery,platform})} />
+     <GameGrid gamequery={gamequery} /></GridItem>
 
 </Grid>
 }

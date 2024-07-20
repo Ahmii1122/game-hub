@@ -21,10 +21,11 @@ export interface Game {
 const useGames = ()=>{
     const [games, setGames] = useState<Game[]>([]);
     const [error, setError] = useState<string>('');
-  //   const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
   
     useEffect(() => {
         const controller =new AbortController()
+        setLoading(true);
       apiClient.get<FetchGameResponse>('/games',{signal:controller.signal})
         .then(res => {
           console.log('API response:', res.data); // Log API response
@@ -33,13 +34,15 @@ const useGames = ()=>{
           } else {
             throw new Error('Invalid API response structure');
           }
+          setLoading(false)
         })
         .catch(err => {
           if(err instanceof CanceledError) return
           setError(err.message);
+          setLoading(false)
         });
         return ()=>controller.abort();
     }, []); // Add dependency array here
-    return {games,error}
+    return {games,error,loading}
 }
 export default useGames;
